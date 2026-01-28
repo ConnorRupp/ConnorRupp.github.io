@@ -1,11 +1,75 @@
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>HTML Resume</title>
+        <style>
+            header {text-align: center;}
+        </style>
     </head>
     <body>
-        <h1>Connor Rupp</h1>
-        <p>Hello World!</p>
+        <header>
+            <h1>Connor Rupp</h1>
+            <p>
+                Orlando, FL | co806508@ucf.edu | <a href="www.linkedin.com/in/connor-rupp-8905ab18b">LinkedIn</a>
+            </p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Professional Objective Statement</h2>
+                <hr>
+                <p>
+                    Aspiring software developer and computer science student seeking an internship to gain hands-on experience in coding, 
+                    application development, and problem-solving. Committed to contributing to meaningful projects and continuously 
+                    improving technical abilities.
+                </p>
+            </section>
+            <section>
+                <h2>Education</h2>
+                <hr>
+                <p>
+                    <strong>University of Central Florida </strong> | Bachelor of Science in Computer Science <br>
+                    2023 - Present
+                </p>
+                <p>
+                    <strong>Eastern Florida State College </strong> | Associate of Arts <br>
+                    2021 - 2023
+                </p>
+            </section>
+            <section>
+                <h2>Projects</h2>
+                <hr>
+                <p>
+                    <strong><a href="project1.html">Randomized Maze Generator</a></strong><br>
+                    Java, Java Swing, OOP<br>
+                    <ul>
+                        <li>Built a Java Swing application that generates 32x32 maze-like boards with entrances, exits, obstacles, and rewards</li>
+                        <li>Applied object-oriented design and graphics programming to dynamically render the board</li>
+                        <li>Added menu options for generating new boards and saving/loading board states</li>
+                    </ul>
+                </p>
+                <p>
+                    <strong><a href = "project2.html">AI Learning Assistant (Backend)</a></strong><br>
+                    Node.js, Express, MongoDB, OpenAI API<br>
+                    <ul>
+                        <li>Developed a Node.js/Express backend supporting CRUD operations for users, courses, and learning content, with storage in MongoDB</li>
+                        <li>Integrated OpenAI API to create an AI assistant capable of generating multiple-choice questions from uploaded course notes (PDFs), including file handling and attachment management</li>
+                        <li>Implemented secure user registration, login, and course management, handling dynamic user IDs, server-side validation, and error management for a multi-user system</li>
+                    </ul>
+                </p>
+            </section>
+            <section>
+                <h2>Technical Skills</h2>
+                <hr>
+                <ul>
+                    <li><strong>Languages: </strong> Java, Python, C, Javascript, Typescript, PHP</li>
+                    <li><strong>Frameworks: </strong> Express, React</li>
+                    <li><strong>Databases: </strong> MongoDB, Supabase, SQLite</li>
+                    <li><strong>Tools: </strong> Git/Github, Postman, Visual Studio Code</li>
+                </ul>
+            </section>
+        </main>
     </body>
 </html>
