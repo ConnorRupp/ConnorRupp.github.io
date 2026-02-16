@@ -1,0 +1,266 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.5;
+    color: #333;
+    background-color: #f4f4f4;
+}
+
+header {
+    text-align: center;
+    border-bottom: 3px solid #2c3e50;
+}
+
+header h1 {
+    color: #2c3e50;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+header p {
+    color: #555;
+}
+
+header a {
+    color: #3498db;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+header a:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+section h2 {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+section hr {
+    border: none;
+    border-top: 2px solid #3498db;
+}
+
+section p {
+    color: #555;
+}
+
+section strong {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+section a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+section a:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+ul li {
+    color: #555;
+}
+
+section > strong {
+    display: inline-block;
+}
+
+section > p:has(+ ul) {
+    color: #777;
+    font-style: italic;
+}
+
+section p br {
+    line-height: 2;
+}
+
+section:last-of-type ul {
+    list-style-type: none;
+}
+
+section:last-of-type ul li {
+    border-bottom: 1px solid #eee;
+}
+
+section:last-of-type ul li:last-child {
+    border-bottom: none;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    header,
+    main {
+        background-color: #fff;
+        padding: 20px 15px;
+        margin-bottom: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+    }
+    
+    header {
+        padding-bottom: 20px;
+        margin-bottom: 15px;
+    }
+    
+    header h1 {
+        font-size: 1.75em;
+        margin-bottom: 10px;
+    }
+    
+    header p {
+        font-size: 0.85em;
+        line-height: 1.8;
+        word-wrap: break-word;
+    }
+    
+    section {
+        margin-bottom: 25px;
+    }
+    
+    section h2 {
+        font-size: 1.4em;
+        margin-bottom: 8px;
+    }
+    
+    section hr {
+        width: 50px;
+        margin-bottom: 15px;
+    }
+    
+    section p {
+        margin-bottom: 12px;
+        font-size: 0.95em;
+        text-align: justify;
+    }
+    
+    section > strong {
+        margin-top: 12px;
+        font-size: 1.05em;
+    }
+    
+    section > p:has(+ ul) {
+        margin-bottom: 6px;
+        font-size: 0.9em;
+    }
+    
+    ul {
+        margin-left: 18px;
+        margin-bottom: 15px;
+    }
+    
+    ul li {
+        margin-bottom: 6px;
+        line-height: 1.6;
+        font-size: 0.9em;
+    }
+    
+    section:last-of-type ul {
+        margin-left: 0;
+    }
+    
+    section:last-of-type ul li {
+        padding: 6px 0;
+        font-size: 0.9em;
+    }
+}
+
+@media (min-width: 769px) {
+    body {
+        padding: 40px;
+    }
+    
+    header,
+    main {
+        max-width: 1000px;
+        margin: 0 auto;
+        background-color: #fff;
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.12);
+        border-radius: 10px;
+    }
+    
+    header {
+        padding: 50px 60px 40px 60px;
+        margin-bottom: 0;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    
+    header h1 {
+        font-size: 3em;
+        margin-bottom: 15px;
+    }
+    
+    header p {
+        font-size: 1.1em;
+    }
+    
+    main {
+        padding: 40px 60px 50px 60px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+    
+    section {
+        margin-bottom: 40px;
+    }
+    
+    section h2 {
+        font-size: 2em;
+        margin-bottom: 12px;
+    }
+    
+    section hr {
+        width: 80px;
+        margin-bottom: 25px;
+    }
+    
+    section p {
+        margin-bottom: 18px;
+        font-size: 1.05em;
+        line-height: 1.8;
+    }
+    
+    section > strong {
+        margin-top: 20px;
+        font-size: 1.15em;
+    }
+    
+    section > p:has(+ ul) {
+        margin-bottom: 10px;
+        font-size: 1em;
+    }
+    
+    ul {
+        margin-left: 25px;
+        margin-bottom: 25px;
+    }
+    
+    ul li {
+        margin-bottom: 10px;
+        line-height: 1.8;
+        font-size: 1.05em;
+    }
+    
+    section:last-of-type ul {
+        margin-left: 0;
+    }
+    
+    section:last-of-type ul li {
+        padding: 12px 0;
+        font-size: 1.05em;
+    }
+}
