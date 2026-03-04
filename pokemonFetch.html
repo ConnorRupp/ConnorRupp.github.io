@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pokémon Team Builder</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Arial, sans-serif;
+    background: #a8d8ea;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 30px 20px;
+  }
+
+  .main-card {
+    background: white;
+    border-radius: 16px;
+    border: 3px solid #e6b800;
+    padding: 24px;
+    width: 100%;
+    max-width: 420px;
+    height: fit-content;
+  }
+
+  .search-area {
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .search-label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.95rem;
+  }
+
+  .search-row {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  input[type="text"] {
+    font-size: 0.95rem;
+    border: 1px solid #999;
+    padding: 4px 8px;
+    width: 200px;
+  }
+
+  input[type="text"]:focus { outline: 1px solid #555; }
+
+  button.btn-find {
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: 1px solid #999;
+    background: #e8e8e8;
+    padding: 4px 10px;
+  }
+
+  .sprite-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    margin-bottom: 12px;
+  }
+
+  .sprite-area img {
+    image-rendering: pixelated;
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+  }
+
+  #spritePlaceholder {
+    opacity: 0.8;
+  }
+
+  audio {
+    width: 100%;
+    margin-bottom: 14px;
+  }
+
+  audio.grayed {
+    opacity: 0.45;
+    pointer-events: none;
+    filter: grayscale(1);
+  }
+
+  .moves-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  select {
+    font-size: 0.85rem;
+    border: 1px solid #999;
+    padding: 4px 6px;
+    width: 100%;
+    background: white;
+    cursor: pointer;
+  }
+
+  .btn-add-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+
+  button.btn-add {
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: 1px solid #999;
+    background: #e8e8e8;
+    padding: 4px 14px;
+  }
+
+  /* Team list inside same card */
+  .team-list {
+    border-top: 1px solid #ccc;
+    margin-top: 4px;
+  }
+
+  .team-member {
+    display: flex;
+    align-items: flex-start;
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+    gap: 10px;
+  }
+
+  .team-member img {
+    width: 64px;
+    height: 64px;
+    image-rendering: pixelated;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .team-member ul {
+    list-style: disc;
+    padding-left: 20px;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    text-align: center;
+    flex: 1;
+  }
+
+  .hidden { display: none; }
+
+  .error-msg {
+    color: red;
+    font-size: 0.85rem;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="main-card">
+  <div class="search-area">
+    <span class="search-label">Name or ID</span>
+    <div class="search-row">
+      <input type="text" id="pokemonInput" />
+      <button class="btn-find" onclick="findPokemon()">Find</button>
+    </div>
+  </div>
+
+  <div id="errorMsg" class="error-msg hidden"></div>
+
+  <div class="sprite-area">
+    <img id="spritePlaceholder" src="missingno.png" alt="MissingNo." />
+    <img id="spriteImg" class="hidden" src="" alt="Pokemon sprite" />
+  </div>
+
+  <audio id="pokemonAudio" controls class="grayed"></audio>
+
+  <div class="moves-grid">
+    <select id="move1"><option>—</option></select>
+    <select id="move2"><option>—</option></select>
+    <select id="move3"><option>—</option></select>
+    <select id="move4"><option>—</option></select>
+  </div>
+
+  <div class="btn-add-wrapper">
+    <button class="btn-add" onclick="addToTeam()">Add to Team</button>
+  </div>
+
+  <div class="team-list" id="teamList"></div>
+</div>
+
+<script>
+  const cache = {};
+  let currentPokemon = null;
+
+  async function findPokemon() {
+    const input = document.getElementById('pokemonInput').value.trim().toLowerCase();
+    if (!input) return;
+
+    showError('');
+    hideCurrentPokemon();
+
+    try {
+      let data;
+      if (cache[input]) {
+        data = cache[input];
+      } else {
+        const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${input}`);
+        if (!res.ok) throw new Error('Pokemon not found!');
+        data = await res.json();
+        cache[input] = data;
+      }
+
+      currentPokemon = data;
+      displayPokemon(data);
+    } catch (e) {
+      showError(e.message || 'Could not find that Pokémon.');
+    }
+  }
+
+  function displayPokemon(data) {
+    const spriteUrl = data.sprites?.front_default;
+    const img = document.getElementById('spriteImg');
+    img.src = spriteUrl;
+    img.classList.remove('hidden');
+    document.getElementById('spritePlaceholder').classList.add('hidden');
+
+    const cryUrl = data.cries?.latest || data.cries?.legacy;
+    const audio = document.getElementById('pokemonAudio');
+    audio.classList.remove('grayed');
+    if (cryUrl) {
+      audio.src = cryUrl;
+      audio.load();
+    } else {
+      audio.removeAttribute('src');
+      audio.classList.add('grayed');
+    }
+
+    const moves = data.moves.map(m => m.move.name);
+    ['move1','move2','move3','move4'].forEach(id => {
+      document.getElementById(id).innerHTML =
+        moves.map(m => `<option value="${m}">${m}</option>`).join('');
+    });
+  }
+
+  function hideCurrentPokemon() {
+    document.getElementById('spriteImg').classList.add('hidden');
+    document.getElementById('spritePlaceholder').classList.remove('hidden');
+    const audio = document.getElementById('pokemonAudio');
+    audio.removeAttribute('src');
+    audio.classList.add('grayed');
+    ['move1','move2','move3','move4'].forEach(id => {
+      document.getElementById(id).innerHTML = '<option>—</option>';
+    });
+  }
+
+  function addToTeam() {
+    if (!currentPokemon) return;
+
+    const moves = [
+      document.getElementById('move1').value,
+      document.getElementById('move2').value,
+      document.getElementById('move3').value,
+      document.getElementById('move4').value,
+    ];
+
+    const sprite = currentPokemon.sprites?.front_default;
+    const name = currentPokemon.name;
+
+    const member = document.createElement('div');
+    member.className = 'team-member';
+    member.innerHTML = `
+      <img src="${sprite}" alt="${name}" />
+      <ul>
+        ${moves.map(m => `<li>${m}</li>`).join('')}
+      </ul>
+    `;
+    document.getElementById('teamList').appendChild(member);
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('errorMsg');
+    if (msg) { el.textContent = msg; el.classList.remove('hidden'); }
+    else { el.classList.add('hidden'); }
+  }
+
+  document.getElementById('pokemonInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') findPokemon();
+  });
+</script>
+</body>
+</html>
